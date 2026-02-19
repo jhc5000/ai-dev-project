@@ -2,7 +2,6 @@ package llm
 
 import (
 	"context"
-	"os"
 
 	openai "github.com/sashabaranov/go-openai"
 )
@@ -11,9 +10,10 @@ type OpenAIClient struct {
 	client *openai.Client
 }
 
+// test
 func NewOpenAIClient() *OpenAIClient {
 	return &OpenAIClient{
-		client: openai.NewClient(os.Getenv("OPENAI_API_KEY")),
+		client: openai.NewClient(""),
 	}
 }
 
