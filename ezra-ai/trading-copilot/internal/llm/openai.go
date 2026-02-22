@@ -23,7 +23,7 @@ func (o *OpenAIClient) Generate(prompt string) (string, error) {
 		openai.ChatCompletionRequest{
 			Model: openai.GPT4oMini,
 			Messages: []openai.ChatCompletionMessage{
-				{Role: "system", Content: "You are a disciplined trading assistant."},
+				{Role: "system", Content: "You are an incredibly disciplined trading assistant."},
 				{Role: "user", Content: prompt},
 			},
 			Temperature: 0.2,
