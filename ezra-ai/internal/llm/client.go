@@ -2,63 +2,43 @@ package llm
 
 import (
 	"context"
-	"errors"
-	"time"
+	"ezra-ai/internal/config"
+	"fmt"
 
 	openai "github.com/sashabaranov/go-openai"
-
-	"ezra-ai/internal/config"
 )
+
+type Client interface {
+	Chat(messages []openai.ChatCompletionMessage) (string, error)
+}
 
 type OpenAIClient struct {
 	client *openai.Client
-	model  string
 }
 
-func NewClient(cfg config.Config) (*OpenAIClient, error) {
-	if cfg.OpenAIKey == "" {
-		return nil, errors.New("missing OPENAI_API_KEY")
-	}
+func NewOpenAIClient() *OpenAIClient {
+	cfg := config.Load()
+	// c, d := fmt.Println(cfg.OpenAIKey)
+	// fmt.Println("checking GetEnv:", c, d)
 
-	client := openai.NewClient(cfg.OpenAIKey)
-
+	// a, b := os.LookupEnv(cfg.OpenAIKey)
+	fmt.Println("checking key:", cfg.OpenAIKey)
 	return &OpenAIClient{
-		client: client,
-		model:  "gpt-4o-mini", // fast + cheap for personal use
-	}, nil
+		client: openai.NewClient(cfg.OpenAIKey),
+	}
 }
 
-func (c *OpenAIClient) Chat(messages []Message) (string, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	req := openai.ChatCompletionRequest{
-		Model:       c.model,
-		Temperature: 0.3, // disciplined, not creative
-		Messages:    toOpenAIMessages(messages),
-	}
-
-	resp, err := c.client.CreateChatCompletion(ctx, req)
+func (o *OpenAIClient) Chat(messages []openai.ChatCompletionMessage) (string, error) {
+	resp, err := o.client.CreateChatCompletion(
+		context.Background(),
+		openai.ChatCompletionRequest{
+			Model:       openai.GPT4oMini,
+			Messages:    messages,
+			Temperature: 0.4,
+		},
+	)
 	if err != nil {
 		return "", err
 	}
-
-	if len(resp.Choices) == 0 {
-		return "", errors.New("empty LLM response")
-	}
-
 	return resp.Choices[0].Message.Content, nil
-}
-
-func toOpenAIMessages(messages []Message) []openai.ChatCompletionMessage {
-	out := make([]openai.ChatCompletionMessage, 0, len(messages))
-
-	for _, m := range messages {
-		out = append(out, openai.ChatCompletionMessage{
-			Role:    m.Role,
-			Content: m.Content,
-		})
-	}
-
-	return out
 }

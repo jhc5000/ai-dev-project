@@ -3,6 +3,8 @@ package config
 import (
 	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -11,9 +13,13 @@ type Config struct {
 }
 
 func Load() Config {
+	err := godotenv.Load("/project/workspace/.env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	cfg := Config{
 		OpenAIKey:  os.Getenv("OPENAI_API_KEY2"),
-		ServerPort: os.Getenv("SERVER_PORT"),
+		ServerPort: os.Getenv("PORT"),
 	}
 
 	if cfg.ServerPort == "" {
