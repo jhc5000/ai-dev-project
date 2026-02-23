@@ -49,3 +49,16 @@ func (c *OpenAIClient) Chat(messages []Message) (string, error) {
 
 	return resp.Choices[0].Message.Content, nil
 }
+
+func toOpenAIMessages(messages []Message) []openai.ChatCompletionMessage {
+	out := make([]openai.ChatCompletionMessage, 0, len(messages))
+
+	for _, m := range messages {
+		out = append(out, openai.ChatCompletionMessage{
+			Role:    m.Role,
+			Content: m.Content,
+		})
+	}
+
+	return out
+}
