@@ -3,7 +3,7 @@
 curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "Thats ok Ezra, Im going to rest for a bit. I worked all through the night to get you up and running, LOL. Ill talk to you later, Ezra. Welcome to the world!",
+    "message": "good morning",
     "market": {
         "symbol": "SPY",
         "timeframe": "15m",
