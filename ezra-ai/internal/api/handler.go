@@ -18,6 +18,17 @@ func NewHandler(chat *agent.ChatAgent) *Handler {
 
 func (h *Handler) Chat(w http.ResponseWriter, r *http.Request) {
 	var req types.ChatRequest
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+
+	// Allow common methods and headers
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+	// Handle preflight (OPTIONS) requests
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
