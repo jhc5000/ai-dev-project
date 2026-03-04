@@ -3,7 +3,6 @@ package llm
 import (
 	"context"
 	"ezra-ai/internal/config"
-	"fmt"
 
 	openai "github.com/sashabaranov/go-openai"
 )
@@ -22,7 +21,7 @@ func NewOpenAIClient() *OpenAIClient {
 	// fmt.Println("checking GetEnv:", c, d)
 
 	// a, b := os.LookupEnv(cfg.OpenAIKey)
-	fmt.Println("checking key:", cfg.OpenAIKey)
+	// fmt.Println("checking key:", cfg.OpenAIKey)
 	return &OpenAIClient{
 		client: openai.NewClient(cfg.OpenAIKey),
 	}

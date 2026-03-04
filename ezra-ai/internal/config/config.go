@@ -13,7 +13,7 @@ type Config struct {
 }
 
 func Load() Config {
-	err := godotenv.Load("/project/workspace/.env")
+	err := godotenv.Load("/workspaces/ai-dev-project/.env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}

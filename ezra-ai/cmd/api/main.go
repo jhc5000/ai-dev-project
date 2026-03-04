@@ -18,7 +18,12 @@ func main() {
 	handler := api.NewHandler(chatAgent)
 
 	http.HandleFunc("/chat", handler.Chat)
+	// mux := http.NewServeMux()
+	// ... define routes ...
+	// handler2 := cors.AllowAll().Handler(mux) // "AllowAll" sets permissive defaults
+	// http.ListenAndServe(":8080", handler2)
 
 	log.Println("EzraAI running on :8080")
+	// log.Fatal(http.ListenAndServe(":8080", handler2))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
