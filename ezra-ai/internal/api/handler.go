@@ -18,7 +18,7 @@ func NewHandler(chat *agent.ChatAgent) *Handler {
 
 func (h *Handler) Chat(w http.ResponseWriter, r *http.Request) {
 	var req types.ChatRequest
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	// Allow common methods and headers
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
